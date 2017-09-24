@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="SlackBot:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SlackBot_jar</output-path>
+    <root id="archive" name="SlackBot.jar">
+      <element id="module-output" name="SlackBot" />
+      <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-reflect.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-test.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib-jre7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib-jre8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../SlackAPI/out/artifacts/SlackAPI_jar/SlackAPI.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../ZamgerAPI/out/artifacts/ZamgerAPI_jar/ZamgerAPI.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
