@@ -1,0 +1,10 @@
+{
+	"slack": {
+		"token": "token from slack",
+		"username": "Somebotty"
+	},
+	"zamger": {
+		"username": "zamger user",
+		"password": "zamger pass"
+	}
+}

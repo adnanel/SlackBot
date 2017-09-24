@@ -1,26 +1,21 @@
 
 import org.json.JSONArray
 import org.json.JSONObject
-import org.omg.CORBA.Environment
 import slackapi.SlackConfig
 import slackapi.SlackContext
+import slackbot.plugins.SlackBotPlugin
 import utility.log
 import java.io.File
 import java.io.FileReader
-import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-import java.net.URI
-import java.net.URL
 import java.net.URLClassLoader
-import java.nio.file.Paths
-import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
+import java.util.function.Consumer
 import kotlin.collections.ArrayList
 
+class ProxyClass {}
 
-fun loadPlugins(appConfig : String) : List<HaberPlugin> {
-    val res = ArrayList<HaberPlugin>()
+fun loadPlugins(appConfig : String) : List<SlackBotPlugin> {
+    val res = ArrayList<SlackBotPlugin>()
 
     val plugins = JSONArray(FileReader(File("plugins.json")).readText())
     for ( it in plugins ) {
@@ -35,10 +30,12 @@ fun loadPlugins(appConfig : String) : List<HaberPlugin> {
 
         log("Loading plugin " + obj.getString("name"))
 
-        val urlCl = URLClassLoader(arrayOf(f.toURL()), System::class.java.classLoader)
+        val urlCl = URLClassLoader(arrayOf(f.toURL()), ProxyClass().javaClass.classLoader)
         val pluginClass = urlCl.loadClass(obj.getString("class"))
 
-        res += pluginClass.constructors[0].newInstance(appConfig) as HaberPlugin
+        val pObj = pluginClass.constructors[0].newInstance() as SlackBotPlugin
+        pObj.Initialize(appConfig)
+        res += pObj
     }
 
     return res
@@ -51,14 +48,22 @@ fun main(args : Array<String>) {
     // Init slack
     val sjson = json.getJSONObject("slack")
     val scfg = SlackConfig(sjson.getString("token"), sjson.getString("username"))
-    //val slackContext = SlackContext(scfg)
+    val slackContext = SlackContext(scfg)
 
     // Init zamger
     val zjson = json.getJSONObject("zamger")
     //val zamgerContext = ZamgerContext(zjson.getString("username"), zjson.getString("password"))
 
+    val mainLogger = object : Consumer<String> {
+        val lock = ReentrantLock()
+        override fun accept(t: String) {
+            lock.lock()
+            log(t)
+            lock.unlock()
+        }
+    }
 
-    val plugins : List<HaberPlugin> = loadPlugins(json.toString())
+    val plugins : List<SlackBotPlugin> = loadPlugins(json.toString())
 
     val threads = ArrayList<Thread>()
     val threadsLock = ReentrantLock()
@@ -69,7 +74,7 @@ fun main(args : Array<String>) {
                 try {
                     while (true) {
                         Thread.sleep(plugin.MinTickTimer)
-                        plugin.Tick()
+                        plugin.Tick(mainLogger)
                     }
                 } catch ( ex : Exception ) {
                     log(ex)
@@ -81,6 +86,11 @@ fun main(args : Array<String>) {
         }
         thread.start()
         threads += thread
+    }
+
+
+    plugins.forEach {
+        slackContext.RTMApi?.AddMessageListener(it)
     }
 
     log("Entering main loop")

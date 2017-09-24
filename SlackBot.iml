@@ -18,5 +18,14 @@
         <jarDirectory url="file://$MODULE_DIR$/../SlackAPI/out/artifacts/SlackAPI_jar" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../SlackBotPluginBase/out/artifacts/SlackBotPluginBase_jar/SlackBotPluginBase.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

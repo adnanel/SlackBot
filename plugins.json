@@ -1,7 +1,7 @@
 [
 	{
 		"name": "Smurf banner",
-		"class": "HaberSmurfBanner",
+		"class": "slackbot.plugins.HaberSmurfBanner",
 		"path": "/../HaberSmurfBanner/out/artifacts/HaberSmurfBanner_jar/HaberSmurfBanner.jar"
 	}
 ]

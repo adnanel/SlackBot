@@ -10,6 +10,7 @@
       <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib-jre8.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../SlackAPI/out/artifacts/SlackAPI_jar/SlackAPI.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../ZamgerAPI/out/artifacts/ZamgerAPI_jar/ZamgerAPI.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../SlackBotPluginBase/out/artifacts/SlackBotPluginBase_jar/SlackBotPluginBase.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
